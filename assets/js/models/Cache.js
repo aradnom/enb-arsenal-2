@@ -54,5 +54,12 @@ App.models.Cache = Backbone.Model.extend({
     } catch ( err ) {
       console.error( 'Unable to save cache bucket: ', err );
     }
+  },
+
+  /**
+   * Flush the cache completely.
+   */
+  flush: function () {
+    localStorage.removeItem( 'cache_' + this.bucket );
   }
 });

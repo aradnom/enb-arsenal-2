@@ -13,8 +13,10 @@
     .then( (function ( item ) {
       this.item   = item;
       this.loaded = true;
-      console.log( item );
 
       this.update();
-    }).bind( this ));
+    }).bind( this ))
+    .catch( function ( err ) {
+      console.error( err );
+    });
 </item>

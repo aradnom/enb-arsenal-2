@@ -8,31 +8,36 @@ App.models.DataStore = Backbone.Model.extend({
   },
 
   /**
-   * Retrieve a single record from the database based on ID.
+   * Retrieve a single record from the database based on slug.
    *
    * @param {Integer} id ID of record to retrieve
    *
    * @return {Object} Returns promise containing record or error
    */
-  get: function ( id ) {
+  get: function ( slug ) {
     var deferred = Promise.defer();
 
-    if ( ! id ) { return deferred.reject( 'invalidParams' ); }
+    if ( ! slug ) { return deferred.reject( 'invalidParams' ); }
 
     // Attempt to pull the object from the cache
-    var cached = this.cache.getValue( id );
-    
+    var cached = this.cache.getValue( slug );
+
     if ( cached ) {
       deferred.resolve( cached );
     } else {
       this.db
-        .child( id )
-        .on( 'value', (function ( snapshot ) {
+        .orderByChild( 'slug' )
+        .equalTo( slug )
+        .limitToFirst( 1 )
+        .once( 'value', (function ( snapshot ) {
           var value = snapshot.val();
 
           if ( value ) {
+            // Pop the first record out
+            value = value[ Object.keys( value )[ 0 ] ];
+
             // Cache the item under the id
-            this.cache.setValue( id, value );
+            this.cache.setValue( slug, value );
 
             deferred.resolve( value );
           } else {

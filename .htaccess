@@ -1,0 +1,3 @@
+<FilesMatch "\.(gz)$">
+  Header add Content-Encoding gzip
+</FilesMatch>
