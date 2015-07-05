@@ -6,8 +6,7 @@
   </section>
 
   // Split the ID out from the slug
-  var segments = opts.slug.split( '-' );
-  var id       = segments[ segments.length - 1 ];
+  var id = opts.slug.split( '-' )[ 0 ];
   App.services.items
     .get( id )
     .then( (function ( item ) {
