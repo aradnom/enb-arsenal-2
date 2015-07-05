@@ -16,7 +16,7 @@ App.router.route( '', 'home', function () {
 App.router.route( 'item/:slug', 'item', function ( slug ) {
   this.renderRouteComponents([
     { tag: 'mini-search' },
-    { tag: 'item', args: { id: slug } }
+    { tag: 'item', args: { slug: slug } }
   ]);
 });
 

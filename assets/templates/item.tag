@@ -5,11 +5,11 @@
     <basic-info item={ item }></basic-info>
   </section>
 
-  // Load the item
-  App
-    .services
-    .items
-    .get( opts.id )
+  // Split the ID out from the slug
+  var segments = opts.slug.split( '-' );
+  var id       = segments[ segments.length - 1 ];
+  App.services.items
+    .get( id )
     .then( (function ( item ) {
       this.item   = item;
       this.loaded = true;
