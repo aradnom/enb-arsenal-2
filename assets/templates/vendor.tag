@@ -18,9 +18,9 @@
         <ul class="listing__properties">
           <li if={ type_name }>{ type_name }</li>
           <li if={ level }>{ level }</li>
-          <li if={ manu_name }>{  }</li>
+          <li if={ manu_name }>{ manu_name }</li>
           <li if={ no_manu }>Non-manufacturable</li>
-          <li if={ description }>{ description }</li>
+          <li class="--block" if={ description }>{ description }</li>
         </ul>
       </li>
     </ul>
