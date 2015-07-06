@@ -1,14 +1,14 @@
 <mob>
-  <section class="mob  { loaded ? '--loaded': null }">
-    <h2>{ mob.name }</h2>
+  <section class="mob">
+    <h2>{ opts.mob.name }</h2>
 
     <ul class="meta-info">
-      <li class="--em" if={ mob.locations && mob.locations.length }>{ mob.locations.join( ', ' ) }</li>
-      <li if={ mob.level }>level { mob.level }</li>
+      <li class="--em" if={ opts.mob.locations && opts.mob.locations.length }>{ opts.mob.locations.join( ', ' ) }</li>
+      <li if={ opts.mob.level }>level { opts.mob.level }</li>
     </ul>
 
-    <ul class="listing" if={ mob.items && mob.items.length }>
-      <li each={ mob.items }>
+    <ul class="listing" if={ opts.mob.items && opts.mob.items.length }>
+      <li each={ opts.mob.items }>
         <div class="listing__image" if={ filename }>
           <img riot-src={ '/assets/img/icons/png/' + filename } border="0" />
         </div>
@@ -26,16 +26,4 @@
       </li>
     </ul>
   </section>
-
-  App.services.mobs
-    .get( opts.id )
-    .then( (function ( mob ) {
-      this.mob    = mob;
-      this.loaded = true;
-
-      this.update();
-    }).bind( this ))
-    .catch( function ( err ) {
-      console.error( err );
-    });
 </mob>

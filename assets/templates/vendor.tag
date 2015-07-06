@@ -1,14 +1,14 @@
 <vendor>
   <section class="vendor  { loaded ? '--loaded': null }">
-    <h2>{ vendor.first_name } { vendor.last_name }</h2>
+    <h2>{ opts.vendor.first_name } { opts.vendor.last_name }</h2>
 
     <ul class="meta-info">
-      <li class="--em" if={ vendor.sec_name }>{ vendor.sec_name } > { vendor.name }</li>
-      <li if={ vendor.level }>level { vendor.level }</li>
+      <li class="--em" if={ opts.vendor.sec_name }>{ opts.vendor.sec_name } > { opts.vendor.name }</li>
+      <li if={ opts.vendor.level }>level { opts.vendor.level }</li>
     </ul>
 
-    <ul class="listing" if={ vendor.items && vendor.items.length }>
-      <li each={ vendor.items }>
+    <ul class="listing" if={ opts.vendor.items && opts.vendor.items.length }>
+      <li each={ opts.vendor.items }>
         <div class="listing__image" if={ filename }>
           <img riot-src={ '/assets/img/icons/png/' + filename } border="0" />
         </div>
@@ -25,16 +25,4 @@
       </li>
     </ul>
   </section>
-
-  App.services.vendors
-    .get( opts.id )
-    .then( (function ( vendor ) {
-      this.vendor    = vendor;
-      this.loaded    = true;
-
-      this.update();
-    }).bind( this ))
-    .catch( function ( err ) {
-      console.error( err );
-    });
 </vendor>
