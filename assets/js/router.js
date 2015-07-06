@@ -14,9 +14,34 @@ App.router.route( '', 'home', function () {
 
 // Items
 App.router.route( 'item/:slug', 'item', function ( slug ) {
+  // Split the ID out from the slug
+  var id = slug.split( '-' )[ 0 ];
+
   this.renderRouteComponents([
     { tag: 'mini-search' },
-    { tag: 'item', args: { slug: slug } }
+    { tag: 'item', args: { id: id } }
+  ]);
+});
+
+// Mobs
+App.router.route( 'mob/:slug', 'mob', function ( slug ) {
+  // Split the ID out from the slug
+  var id = slug.split( '-' )[ 0 ];
+
+  this.renderRouteComponents([
+    { tag: 'mini-search' },
+    { tag: 'mob', args: { id: id } }
+  ]);
+});
+
+// Vendors
+App.router.route( 'vendor/:slug', 'vendor', function ( slug ) {
+  // Split the ID out from the slug
+  var id = slug.split( '-' )[ 0 ];
+
+  this.renderRouteComponents([
+    { tag: 'mini-search' },
+    { tag: 'vendor', args: { id: id } }
   ]);
 });
 

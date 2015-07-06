@@ -3,8 +3,12 @@ App.models.Search = Backbone.Model.extend({
   initialize: function () {
     // Pull in the search index data
     $.getJSON( '/assets/json/search.json.gz', (function ( data ) {
-      // And build the index
-      this.buildIndices( data );
+      // Wait a wee bit before building the search index just to give all other
+      // async requests a chance to fire first.
+      // TODO: Tie this into an actual event
+      setTimeout( (function () {
+        this.buildIndices( data );
+      }).bind( this ), 250 );
     }).bind( this ));
   },
 
