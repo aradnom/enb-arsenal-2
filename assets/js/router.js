@@ -22,7 +22,7 @@ App.router.route( 'item/:slug', 'item', function ( slug ) {
     .then( (function ( item ) {
       // And render the route
       this.renderRouteComponents([
-        { tag: 'mini-search' },
+        { tag: 'search' },
         { tag: 'item', args: { item: item } }
       ]);
     }).bind( this ))
@@ -42,7 +42,7 @@ App.router.route( 'mob/:slug', 'mob', function ( slug ) {
     .then( (function ( mob ) {
       // And render the route's components
       this.renderRouteComponents([
-        { tag: 'mini-search' },
+        { tag: 'search' },
         { tag: 'mob', args: { mob: mob } }
       ]);
     }).bind( this ))
@@ -61,7 +61,7 @@ App.router.route( 'vendor/:slug', 'vendor', function ( slug ) {
     .get( id )
     .then( (function ( vendor ) {
       this.renderRouteComponents([
-        { tag: 'mini-search' },
+        { tag: 'search' },
         { tag: 'vendor', args: { vendor: vendor } }
       ]);
     }).bind( this ))
