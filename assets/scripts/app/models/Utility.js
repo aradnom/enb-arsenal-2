@@ -1,4 +1,4 @@
-App.models.Utility = Backbone.Model.extend({
+module.exports = Backbone.Model.extend({
   /**
    * Via: https://github.com/ded/domready
    */
@@ -22,6 +22,3 @@ App.models.Utility = Backbone.Model.extend({
     }
   }
 });
-
-// Initialize a copy of this for use immediately
-App.services.utility = new App.models.Utility;

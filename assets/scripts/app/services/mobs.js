@@ -1,1 +1,3 @@
-App.services.mobs = new App.models.DataStore( 'mobs' );
+var DataStore = require( '../models/datastore' );
+
+module.exports = new DataStore( 'mobs' );

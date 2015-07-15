@@ -1,4 +1,4 @@
-App.models.Router = Backbone.Router.extend({
+module.exports = Backbone.Router.extend({
 
   renderRouteComponents: function ( components ) {
     var $content = $( 'article.main-content' );

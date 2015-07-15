@@ -1,10 +1,13 @@
-App.models.DataStore = Backbone.Model.extend({
+var Cache  = require( './cache' );
+var config = require( '../services/config' );
+
+module.exports = Backbone.Model.extend({
   initialize: function ( bucket ) {
     // Set up base Firebase object for accessing specific bucket
-    this.db = new Firebase( App.config.db.base + bucket );
+    this.db = new Firebase( config.db.base + bucket );
 
     // Create new cache object for the bucket as well
-    this.cache = new App.models.Cache( bucket );
+    this.cache = new Cache( bucket );
   },
 
   /**

@@ -1,24 +1,28 @@
+var Router = require( './models/router' );
+
 // Load new router object into the main app object
-App.router = new App.models.Router();
+var appRouter = new Router();
 
 // 404 route - should be at the top as the catch-all
-App.router.route( '*notFound', 'pageNotFound', function () {
+appRouter.route( '*notFound', 'pageNotFound', function () {
   console.log( '404' );
   this.renderRouteComponents();
 });
 
 // Home page - aka empty route
-App.router.route( '', 'home', function () {
+appRouter.route( '', 'home', function () {
   this.renderRouteComponents();
 });
 
 // Items
-App.router.route( 'item/:slug', 'item', function ( slug ) {
+appRouter.route( 'item/:slug', 'item', function ( slug ) {
+  var items = require( './services/items' );
+
   // Split the ID out from the slug
   var id = slug.split( '-' )[ 0 ];
 
   // Load the item
-  App.services.items.get( id )
+  items.get( id )
     .then( (function ( item ) {
       // And render the route
       this.renderRouteComponents([
@@ -32,12 +36,14 @@ App.router.route( 'item/:slug', 'item', function ( slug ) {
 });
 
 // Mobs
-App.router.route( 'mob/:slug', 'mob', function ( slug ) {
+appRouter.route( 'mob/:slug', 'mob', function ( slug ) {
+  var mobs = require( './services/mobs' );
+
   // Split the ID out from the slug
   var id = slug.split( '-' )[ 0 ];
 
   // Load the mob in
-  App.services.mobs
+  mobs
     .get( id )
     .then( (function ( mob ) {
       // And render the route's components
@@ -52,12 +58,14 @@ App.router.route( 'mob/:slug', 'mob', function ( slug ) {
 });
 
 // Vendors
-App.router.route( 'vendor/:slug', 'vendor', function ( slug ) {
+appRouter.route( 'vendor/:slug', 'vendor', function ( slug ) {
+  var vendors = require( './services/vendors' );
+
   // Split the ID out from the slug
   var id = slug.split( '-' )[ 0 ];
 
   // Load the vendor in
-  App.services.vendors
+  vendors
     .get( id )
     .then( (function ( vendor ) {
       this.renderRouteComponents([
@@ -72,3 +80,6 @@ App.router.route( 'vendor/:slug', 'vendor', function ( slug ) {
 
 // Start the music
 Backbone.history.start();
+
+// Return the router object
+module.exports = appRouter;

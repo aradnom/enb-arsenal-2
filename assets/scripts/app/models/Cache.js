@@ -1,4 +1,4 @@
-App.models.Cache = Backbone.Model.extend({
+module.exports = Backbone.Model.extend({
   initialize: function ( bucket ) {
     this.bucket = bucket;
 

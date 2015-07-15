@@ -1,1 +1,3 @@
-App.services.search = new App.models.Search();
+var Search = require( '../models/search' );
+
+module.exports = new Search();

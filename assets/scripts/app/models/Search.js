@@ -1,4 +1,4 @@
-App.models.Search = Backbone.Model.extend({
+module.exports = Backbone.Model.extend({
 
   initialize: function () {
     // Pull in the search index data
@@ -88,6 +88,8 @@ App.models.Search = Backbone.Model.extend({
    * @return {Object} Returns promise containing item results or error
    */
   search: function ( query ) {
+    var items = require( '../services/items' );
+
     // Pull the IDs of matching items
     var ids = this.searchIndices( query );
 
@@ -96,7 +98,7 @@ App.models.Search = Backbone.Model.extend({
 
     // For each returned item ID, retrieve the actual item for the ID
     return Promise.all( ids.map( function ( id ) {
-      return App.services.items.get( id );
+      return items.get( id );
     }));
   },
 

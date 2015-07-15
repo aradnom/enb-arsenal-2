@@ -1,4 +1,8 @@
+var Config = require( '../models/config' );
+
 // Database config
-App.config.db = new Config({
-  base: 'https://incandescent-torch-1326.firebaseio.com/'
-});
+module.exports = {
+  db: new Config({
+    base: 'https://incandescent-torch-1326.firebaseio.com/'
+  })
+};
