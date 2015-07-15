@@ -7,51 +7,42 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title></title>
-        <meta name="description" content="">
+        <meta name="description" content="The Earth and Beyond Arsenal! Too!">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="/assets/css/normalize.min.css">
-        <link rel="stylesheet" href="/assets/css/main.css">
-
-        <script src="/assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+        <link rel="stylesheet" href="/assets/styles/application.css">
     </head>
     <body>
         <!--[if lt IE 9]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
+        <!-- All the Things -->
         <article class="main-content"></article>
 
         <!-- Vendors -->
-        <script src="/assets/js/vendor/firebase.js"></script>
-        <script src="/assets/node_modules/zepto/zepto.min.js"></script>
-        <script src="/assets/node_modules/bluebird/js/browser/bluebird.min.js"></script>
-        <script src="/assets/node_modules/lunr/lunr.min.js"></script>
-        <script src="/assets/node_modules/backbone/node_modules/underscore/underscore.js"></script>
-        <script src="/assets/node_modules/backbone/backbone.js"></script>
-        <script src="/assets/node_modules/riot/riot.js"></script>
-        <script src="/assets/node_modules/riot/compiler.js"></script>
+        <script src="/assets/scripts/dist/vendor.js"></script>
 
         <!-- Riot tags (views) -->
         <script src="/assets/templates/item.tag" type="riot/tag"></script>
-        <script src="/assets/templates/basicInfo.tag" type="riot/tag"></script>
         <script src="/assets/templates/search.tag" type="riot/tag"></script>
         <script src="/assets/templates/mob.tag" type="riot/tag"></script>
         <script src="/assets/templates/vendor.tag" type="riot/tag"></script>
 
         <!-- Backbone components -->
-        <script src="/assets/js/app.js"></script>
-        <script src="/assets/js/models/Config.js"></script>
-        <script src="/assets/js/models/Utility.js"></script>
-        <script src="/assets/js/models/Router.js"></script>
-        <script src="/assets/js/models/Cache.js"></script>
-        <script src="/assets/js/models/DataStore.js"></script>
-        <script src="/assets/js/models/Search.js"></script>
-        <script src="/assets/js/services/search.js"></script>
-        <script src="/assets/js/services/items.js"></script>
-        <script src="/assets/js/services/vendors.js"></script>
-        <script src="/assets/js/services/mobs.js"></script>
-        <script src="/assets/js/router.js"></script>
+        <script src="/assets/scripts/app/app.js"></script>
+        <script src="/assets/scripts/app/models/Config.js"></script>
+        <script src="/assets/scripts/app/models/Utility.js"></script>
+        <script src="/assets/scripts/app/models/Router.js"></script>
+        <script src="/assets/scripts/app/models/Cache.js"></script>
+        <script src="/assets/scripts/app/models/DataStore.js"></script>
+        <script src="/assets/scripts/app/models/Search.js"></script>
+        <script src="/assets/scripts/app/services/config.js"></script>
+        <script src="/assets/scripts/app/services/search.js"></script>
+        <script src="/assets/scripts/app/services/items.js"></script>
+        <script src="/assets/scripts/app/services/vendors.js"></script>
+        <script src="/assets/scripts/app/services/mobs.js"></script>
+        <script src="/assets/scripts/app/router.js"></script>
 
     </body>
 </html>

@@ -3,7 +3,7 @@
     <h2>{ opts.item.name }</h2>
 
     <div if={ opts.item.image } class="item__image">
-      <img riot-src={ '/assets/img/icons/png/' + opts.item.image } border="0" />
+      <img riot-src={ '/assets/visual/icons/png/' + opts.item.image } border="0" />
     </div>
 
     <p class="item__description" if={ opts.item.basic.raw.description }>{ opts.item.basic.raw.description }</p>
@@ -63,7 +63,7 @@
       <ul class="info">
         <li each={ opts.item.components }>
           <div if={ image } class="component__image">
-            <a href="#item/{ slug }"><img riot-src={ '/assets/img/icons/png/' + image } border="0" /></a>
+            <a href="#item/{ slug }"><img riot-src={ '/assets/visual/icons/png/' + image } border="0" /></a>
           </div>
           <a href="#item/{ slug }"><p>{ name }</p></a>
         </li>

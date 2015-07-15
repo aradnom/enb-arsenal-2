@@ -10,7 +10,7 @@
     <ul class="listing" if={ opts.mob.items && opts.mob.items.length }>
       <li each={ opts.mob.items }>
         <div class="listing__image" if={ filename }>
-          <img riot-src={ '/assets/img/icons/png/' + filename } border="0" />
+          <img riot-src={ '/assets/visual/icons/png/' + filename } border="0" />
         </div>
 
         <a href="#item/{ slug }"><h3 class="heading4  listing__title">{ name }</h3></a>
