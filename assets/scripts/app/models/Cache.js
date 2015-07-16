@@ -1,3 +1,5 @@
+var Backbone = require( '../../node_modules/backbone/backbone-min' );
+
 module.exports = Backbone.Model.extend({
   initialize: function ( bucket ) {
     this.bucket = bucket;

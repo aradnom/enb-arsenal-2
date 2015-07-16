@@ -1,4 +1,5 @@
-var Router = require( './models/router' );
+var Backbone = require( '../node_modules/backbone/backbone-min' );
+var Router   = require( './models/router' );
 
 // Load new router object into the main app object
 var appRouter = new Router();

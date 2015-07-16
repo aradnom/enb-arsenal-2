@@ -1,3 +1,8 @@
+var Backbone = require( '../../node_modules/backbone/backbone-min' );
+var $        = require( '../../node_modules/zepto-browserify/zepto' ).$;
+var lunr     = require( '../../node_modules/lunr/lunr.min' );
+var Promise  = require( '../../node_modules/bluebird/js/browser/bluebird.min' );
+
 module.exports = Backbone.Model.extend({
 
   initialize: function () {

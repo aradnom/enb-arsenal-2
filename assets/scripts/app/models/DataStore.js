@@ -1,5 +1,8 @@
-var Cache  = require( './cache' );
-var config = require( '../services/config' );
+var Backbone = require( '../../node_modules/backbone/backbone-min' );
+var Cache    = require( './cache' );
+var config   = require( '../services/config' );
+var Firebase = require( '../../node_modules/firebase/lib/firebase-web' );
+var Promise  = require( '../../node_modules/bluebird/js/browser/bluebird.min' );
 
 module.exports = Backbone.Model.extend({
   initialize: function ( bucket ) {

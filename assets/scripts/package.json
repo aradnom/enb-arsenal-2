@@ -1,0 +1,18 @@
+{
+  "name": "enb-arsenal-2.0",
+  "version": "1.0.0",
+  "description": "It's a website!",
+  "main": "index.js",
+  "dependencies": {
+    "backbone": "^1.2.1",
+    "bluebird": "^2.9.34",
+    "firebase": "^2.2.7",
+    "lunr": "^0.5.10",
+    "modernizr": "^3.0.0-alpha.4",
+    "riot": "^2.1.0",
+    "zepto-browserify": "^1.1.6-1"
+  },
+  "devDependencies": {},
+  "author": "Tim Shaw",
+  "license": "MIT"
+}
