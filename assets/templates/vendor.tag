@@ -1,14 +1,14 @@
 <vendor>
   <section class="vendor  { loaded ? '--loaded': null }">
-    <h2>{ opts.vendor.first_name } { opts.vendor.last_name }</h2>
+    <h2>{ vendor.first_name } { vendor.last_name }</h2>
 
     <ul class="info">
-      <li class="--em" if={ opts.vendor.sec_name }>{ opts.vendor.sec_name } > { opts.vendor.name }</li>
-      <li if={ opts.vendor.level }>level { opts.vendor.level }</li>
+      <li class="--em" if={ vendor.sec_name }>{ vendor.sec_name } > { vendor.name }</li>
+      <li if={ vendor.level }>level { vendor.level }</li>
     </ul>
 
-    <ul class="listing" if={ opts.vendor.items && opts.vendor.items.length }>
-      <li each={ opts.vendor.items }>
+    <ul class="listing" if={ vendor.items && vendor.items.length }>
+      <li each={ vendor.items }>
         <div class="listing__image" if={ filename }>
           <img riot-src={ '/assets/visual/icons/png/' + filename } border="0" />
         </div>
@@ -31,4 +31,21 @@
       </li>
     </ul>
   </section>
+
+  // Split the ID out from the slug
+  var id = opts.slug.split( '-' )[ 0 ];
+
+  // Load the vendor in
+  App.services.vendors
+    .get( id )
+    .then( (function ( vendor ) {
+      // Set the vendor in the tag
+      this.vendor = vendor;
+
+      // And render view
+      this.update();
+    }).bind( this ))
+    .catch( function ( err ) {
+      console.error( 'Unable to retrieve vendor: ', err );
+    });
 </vendor>

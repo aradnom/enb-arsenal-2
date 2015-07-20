@@ -16,10 +16,14 @@ module.exports = Backbone.Router.extend({
     // Set the content nodes
     $content.html( nodes );
 
-    // Then mount individually so separate args can be passed
-    components.forEach( function ( component ) {
-      riot.mount( component.tag, component.args );
+    // Wait for riot compiler to finish before mounting tags
+    riot.compile( function() {
+      // Then mount individually so separate args can be passed
+      components.forEach( function ( component ) {
+        riot.mount( component.tag, component.args );
+      });
     });
+
   }
 
 });

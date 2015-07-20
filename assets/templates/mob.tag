@@ -1,14 +1,14 @@
 <mob>
   <section class="mob">
-    <h2>{ opts.mob.name }</h2>
+    <h2>{ mob.name }</h2>
 
     <ul class="info">
-      <li class="--em" if={ opts.mob.locations && opts.mob.locations.length }>{ opts.mob.locations.join( ', ' ) }</li>
-      <li if={ opts.mob.level }>level { opts.mob.level }</li>
+      <li class="--em" if={ mob.locations && mob.locations.length }>{ mob.locations.join( ', ' ) }</li>
+      <li if={ mob.level }>level { mob.level }</li>
     </ul>
 
-    <ul class="listing" if={ opts.mob.items && opts.mob.items.length }>
-      <li each={ opts.mob.items }>
+    <ul class="listing" if={ mob.items && mob.items.length }>
+      <li each={ mob.items }>
         <div class="listing__image" if={ filename }>
           <img riot-src={ '/assets/visual/icons/png/' + filename } border="0" />
         </div>
@@ -34,4 +34,21 @@
       </li>
     </ul>
   </section>
+
+  // Split the ID out from the slug
+  var id = opts.slug.split( '-' )[ 0 ];
+
+  // Load the mob in
+  App.services.mobs
+    .get( id )
+    .then( (function ( mob ) {
+      // Set the mob in the tag
+      this.mob = mob;
+
+      // And render view
+      this.update();
+    }).bind( this ))
+    .catch( function ( err ) {
+      console.error( 'Unable to retrieve mob: ', err );
+    });
 </mob>

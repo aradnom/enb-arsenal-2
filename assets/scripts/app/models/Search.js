@@ -93,8 +93,8 @@ module.exports = Backbone.Model.extend({
     // Pull the IDs of matching items
     var ids = this.searchIndices( query );
 
-    // If no results were returned, just send that back
-    if ( ! ids.length ) { return ids; }
+    // If no results were returned, we're done
+    if ( ! ids.length ) { return Promise.reject( 'noResults' ); }
 
     // For each returned item ID, retrieve the actual item for the ID
     return Promise.all( ids.map( function ( id ) {
