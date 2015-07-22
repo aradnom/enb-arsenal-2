@@ -19,18 +19,41 @@
       this.update();
 
       // Build the Packery grid again
-      App.itemGrid = new Packery( $( '.item-grid' )[ 0 ], {
-        itemSelector: '.item-card',
-        gutter: 10
-      });
+      buildGrid();
     }
   }).bind( this ));
 
+  this.on( 'mount', function () {
+    // Reload any stored items
+    if ( App.state.gridItems && App.state.gridItems.length ) {
+      items = App.state.gridItems;
+
+      this.update();
+
+      // And reestablish the grid
+      buildGrid();
+    }
+  });
+
   this.on( 'unmount', function () {
+    // Save the current items into the app state for retrieval
+    App.state.gridItems = items;
+
     // Destroy Packery on the way out
     if ( App.itemGrid ) {
       App.itemGrid.destroy();
     }
   });
+
+  /////////////////////////////////////////////////////////////////////////////
+  // Internal functions ///////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+
+  function buildGrid () {
+    App.itemGrid = new Packery( $( '.item-grid' )[ 0 ], {
+      itemSelector: '.item-card',
+      gutter: 10
+    });
+  }
 
 </item-grid>

@@ -28,6 +28,11 @@ window.App = {
   // Will contain the Packery grid when grid is populated
   itemGrid: null,
 
+  // Populated with volatile view data (view state that gets destroyed when the
+  // view changes)
+  state: {},
+
+  // The main router populates everything for the app routes
   router: require('./router.js')
 };
 

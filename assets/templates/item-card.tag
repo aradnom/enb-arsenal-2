@@ -12,7 +12,7 @@
   </div>
 
   expand = function ( event ) {
-    this.expanded = true;
+    event.item.expanded = true;
 
     setTimeout( function () {
       // Fit the item to the grid
