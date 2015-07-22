@@ -21,6 +21,13 @@ window.App = {
     utility: require('./services/utility'),
     vendors: require('./services/vendors')
   },
+
+  // Populated as tags are mounted
+  tags: {},
+
+  // Will contain the Packery grid when grid is populated
+  itemGrid: null,
+
   router: require('./router.js')
 };
 
@@ -246,6 +253,15 @@ module.exports = Backbone.Router.extend({
       return $('<' + component.tag + '/>')[0];
     });
 
+    // Do a bit of cleanup before mounting the route's tags
+    if (typeof App !== 'undefined') {
+      Object.keys(App.tags).forEach(function (key) {
+        App.tags[key].unmount();
+
+        delete App.tags[key];
+      });
+    }
+
     // Set the content nodes
     $content.html(nodes);
 
@@ -253,7 +269,10 @@ module.exports = Backbone.Router.extend({
     riot.compile(function () {
       // Then mount individually so separate args can be passed
       components.forEach(function (component) {
-        riot.mount(component.tag, component.args);
+        var instance = riot.mount(component.tag, component.args);
+
+        // Save the created tag to the tag object for referencing later (events)
+        App.tags[component.tag] = instance[0];
       });
     });
   }
@@ -523,7 +542,7 @@ appRouter.route('*notFound', 'pageNotFound', function () {
 
 // Home page - aka empty route
 appRouter.route('', 'home', function () {
-  this.renderRouteComponents([{ tag: 'search' }]);
+  this.renderRouteComponents([{ tag: 'search' }, { tag: 'item-grid' }]);
 });
 
 // Items

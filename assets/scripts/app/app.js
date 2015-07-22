@@ -18,5 +18,12 @@ window.App = {
     utility: require( './services/utility' ),
     vendors: require( './services/vendors' )
   },
+
+  // Populated as tags are mounted
+  tags: {},
+
+  // Will contain the Packery grid when grid is populated
+  itemGrid: null,
+  
   router: require( './router.js' )
 };

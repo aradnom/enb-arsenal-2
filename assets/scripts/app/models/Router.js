@@ -13,6 +13,15 @@ module.exports = Backbone.Router.extend({
       return $( '<' + component.tag + '/>' )[ 0 ];
     });
 
+    // Do a bit of cleanup before mounting the route's tags
+    if ( typeof( App ) !== 'undefined' ) {
+      Object.keys( App.tags ).forEach( function ( key ) {
+        App.tags[ key ].unmount();
+
+        delete App.tags[ key ];
+      });
+    }
+
     // Set the content nodes
     $content.html( nodes );
 
@@ -20,10 +29,12 @@ module.exports = Backbone.Router.extend({
     riot.compile( function() {
       // Then mount individually so separate args can be passed
       components.forEach( function ( component ) {
-        riot.mount( component.tag, component.args );
+        var instance = riot.mount( component.tag, component.args );
+
+        // Save the created tag to the tag object for referencing later (events)
+        App.tags[ component.tag ] = instance[ 0 ];
       });
     });
-
   }
 
 });

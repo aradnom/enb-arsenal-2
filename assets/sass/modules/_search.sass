@@ -1,0 +1,31 @@
+.search
+  &__query-container
+    position: relative
+
+    &.\--focused
+      .search__query__icon
+        left: -3.5rem
+
+  &__query
+    padding: 2rem
+    font-size: 1.5rem
+    font-weight: 200
+    border: 1px solid rgba(255, 255, 255, 0.6)
+    transition: 0.2s
+    outline: none
+    width: 100%
+    background: rgb(28, 42, 58)
+    position: relative
+
+    &:focus
+      border-color: rgba(255, 255, 255, 1)
+
+    &__icon
+      position: absolute
+      top: 0.5rem
+      left: 0
+      font-size: 3rem
+      transition: 0.15s ease-in-out
+
+  &__filters
+    display: none

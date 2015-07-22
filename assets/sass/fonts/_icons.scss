@@ -1,0 +1,39 @@
+@font-face {
+  font-family: "icons";
+  src: url('../fonts/dist/icons.eot');
+  src: url('../fonts/dist/icons.eot?#iefix') format('eot'),
+    url('../fonts/dist/icons.woff') format('woff'),
+    url('../fonts/dist/icons.ttf') format('truetype'),
+    url('../fonts/dist/icons.svg#icons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+%icon {
+  font-family: 'icons';
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+  font-weight: normal;
+  font-style: normal;
+  speak: none;
+  text-decoration: inherit;
+  text-transform: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+$icons: (
+
+  search: "\EA01",
+
+);
+
+
+
+.icon-search:before,
+[data-icon="search"]:before {
+  content: "\EA01";
+  @extend %icon;
+};

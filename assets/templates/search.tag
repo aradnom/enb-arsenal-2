@@ -1,12 +1,15 @@
 <search>
-  <div class="search">
+  <div class="search  content  --top">
     <form>
-      <input type="text" class="search__query" placeholder="Search..." onkeyup={ keyup } />
+      <div class="search__query-container { searchFocused ? '--focused' : '' }">
+        <div class="search__query__icon" data-icon="search"></div>
+        <input type="text" class="search__query" placeholder="Search..." onkeyup={ keyup } onfocus={ searchFocus } onblur={ searchBlur } />
+      </div>
 
-      <button class="search__show-filters" onclick={ showFilters }><span class="vh">show filters</span></button>
+      <button class="search__show-filters  --primary" onclick={ showFilters }><span class="vh">{ filtersShowing ? 'hide' : 'show' } filters</span></button>
 
       <div class="search__filters">
-        <fieldset>
+        <fieldset class="search__filters__type">
 
           <label for="searchtype-item">Item</label>
           <input type="radio" id="searchtype-item" name="search-type" value="item" />
@@ -22,7 +25,7 @@
 
         </fieldset>
 
-        <fieldset class="search__filters">
+        <fieldset class="search__filters__attributes">
 
           <select name="type" id="type">
             <option value="">All</option>
@@ -126,13 +129,62 @@
       </div>
 
     </form>
+
+    <div class="search-results">
+      <li each={ results } onclick={ addItem }>{ name }</li>
+    </div>
   </div>
+
+  searchFocus = function () {
+    searchFocused = true;
+  };
+
+  searchBlur = function () {
+    searchFocused = false;
+  };
 
   keyup = (_.debounce( function ( event ) {
     var value = event.target.value;
 
     // Run search
-    console.log( value );
+    if ( value && value.length > 2 ) {
+      App.services.search
+        .search({ name: value })
+        .then( ( function ( results ) {
+          this.results = results;
+
+          this.update();
+        }).bind( this ))
+        .catch( function ( err ) {
+          console.error( err );
+        });
+    } else {
+      this.results = null;
+
+      this.update();
+    }
   }, 150 )).bind( this );
+
+  showFilters = function () {
+    var $filters = $( '.search__filters' );
+
+    if ( this.filtersShowing ) {
+      this.filtersShowing = false;
+      $filters
+        .velocity( 'stop' )
+        .velocity( 'slideUp', { duration: 200 });
+    } else {
+      this.filtersShowing = true;
+      $filters
+        .velocity( 'stop' )
+        .velocity( 'slideDown', { duration: 200 });
+    }
+  };
+
+  addItem = function ( event ) {
+    console.log( event.item );
+    
+    App.tags[ 'item-grid' ].trigger( 'addItem', event.item );
+  };
 
 </search>

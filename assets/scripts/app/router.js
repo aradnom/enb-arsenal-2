@@ -11,7 +11,8 @@ appRouter.route( '*notFound', 'pageNotFound', function () {
 // Home page - aka empty route
 appRouter.route( '', 'home', function () {
   this.renderRouteComponents([
-    { tag: 'search' }
+    { tag: 'search' },
+    { tag: 'item-grid' }
   ]);
 });
 

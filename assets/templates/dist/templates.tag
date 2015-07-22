@@ -1,3 +1,66 @@
+<item-card>
+  <div class="item-card { expanded ? '--expanded' : '' }">
+    <button onclick={ expand }>expand</button>
+
+    <h3>{ name }</h3>
+
+    <div if={ image } class="item__image">
+      <img riot-src={ '/assets/visual/icons/png/' + image } border="0" />
+    </div>
+
+    <p>{ description }</p>
+  </div>
+
+  expand = function ( event ) {
+    this.expanded = true;
+
+    setTimeout( function () {
+      // Fit the item to the grid
+      var card = $( event.target ).parent( '.item-card' )[ 0 ];
+
+      App.itemGrid.fit( card, 0, 0 );
+    });
+  }
+
+</item-card>
+
+<item-grid>
+  <div class="item-grid">
+    <item-card each={ items } data={ this }></item-card>
+  </div>
+
+  items = [];
+
+  riot.observable( this );
+
+  this.on( 'addItem', (function ( item ) {
+    // Make sure the item is not already here and only add if it's not
+    var existing = items.filter( function ( other ) {
+      return other.id === item.id;
+    });
+
+    if ( ! existing.length ) {
+      items.push( item );
+
+      this.update();
+
+      // Build the Packery grid again
+      App.itemGrid = new Packery( $( '.item-grid' )[ 0 ], {
+        itemSelector: '.item-card',
+        gutter: 10
+      });
+    }
+  }).bind( this ));
+
+  this.on( 'unmount', function () {
+    // Destroy Packery on the way out
+    if ( App.itemGrid ) {
+      App.itemGrid.destroy();
+    }
+  });
+
+</item-grid>
+
 <item>
   <section class="item">
     <h2>{ item.name }</h2>
@@ -157,14 +220,17 @@
 </mob>
 
 <search>
-  <div class="search">
+  <div class="search  content  --top">
     <form>
-      <input type="text" class="search__query" placeholder="Search..." onkeyup={ keyup } />
+      <div class="search__query-container { searchFocused ? '--focused' : '' }">
+        <div class="search__query__icon" data-icon="search"></div>
+        <input type="text" class="search__query" placeholder="Search..." onkeyup={ keyup } onfocus={ searchFocus } onblur={ searchBlur } />
+      </div>
 
-      <button class="search__show-filters" onclick={ showFilters }><span class="vh">show filters</span></button>
+      <button class="search__show-filters  --primary" onclick={ showFilters }><span class="vh">{ filtersShowing ? 'hide' : 'show' } filters</span></button>
 
       <div class="search__filters">
-        <fieldset>
+        <fieldset class="search__filters__type">
 
           <label for="searchtype-item">Item</label>
           <input type="radio" id="searchtype-item" name="search-type" value="item" />
@@ -180,7 +246,7 @@
 
         </fieldset>
 
-        <fieldset class="search__filters">
+        <fieldset class="search__filters__attributes">
 
           <select name="type" id="type">
             <option value="">All</option>
@@ -284,14 +350,63 @@
       </div>
 
     </form>
+
+    <div class="search-results">
+      <li each={ results } onclick={ addItem }>{ name }</li>
+    </div>
   </div>
+
+  searchFocus = function () {
+    searchFocused = true;
+  };
+
+  searchBlur = function () {
+    searchFocused = false;
+  };
 
   keyup = (_.debounce( function ( event ) {
     var value = event.target.value;
 
     // Run search
-    console.log( value );
+    if ( value && value.length > 2 ) {
+      App.services.search
+        .search({ name: value })
+        .then( ( function ( results ) {
+          this.results = results;
+
+          this.update();
+        }).bind( this ))
+        .catch( function ( err ) {
+          console.error( err );
+        });
+    } else {
+      this.results = null;
+
+      this.update();
+    }
   }, 150 )).bind( this );
+
+  showFilters = function () {
+    var $filters = $( '.search__filters' );
+
+    if ( this.filtersShowing ) {
+      this.filtersShowing = false;
+      $filters
+        .velocity( 'stop' )
+        .velocity( 'slideUp', { duration: 200 });
+    } else {
+      this.filtersShowing = true;
+      $filters
+        .velocity( 'stop' )
+        .velocity( 'slideDown', { duration: 200 });
+    }
+  };
+
+  addItem = function ( event ) {
+    console.log( event.item );
+    
+    App.tags[ 'item-grid' ].trigger( 'addItem', event.item );
+  };
 
 </search>
 
