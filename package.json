@@ -1,0 +1,26 @@
+{
+  "name": "enbarsenal-api",
+  "version": "1.0.0",
+  "description": "Search API component for enbarsenal.com",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:aradnom/enb-arsenal-api.git"
+  },
+  "author": "aradnom@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aradnom/enb-arsenal-api/issues"
+  },
+  "homepage": "https://github.com/aradnom/enb-arsenal-api",
+  "dependencies": {
+    "bluebird": "^2.9.34",
+    "body-parser": "^1.13.2",
+    "compression": "^1.5.1",
+    "ejs": "^2.3.3",
+    "express": "^4.13.1",
+    "lodash": "^3.10.0",
+    "mongodb": "^2.0.39",
+    "winston": "^1.0.1"
+  }
+}
