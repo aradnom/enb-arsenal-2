@@ -1,3 +1,3 @@
 var DataStore = require( '../models/datastore' );
 
-module.exports = new DataStore( 'items' );
+module.exports = new DataStore( 'item' );

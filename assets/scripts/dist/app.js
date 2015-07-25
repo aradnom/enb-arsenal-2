@@ -187,12 +187,12 @@ var Cache = require('./cache');
 var config = require('../services/config');
 
 module.exports = Backbone.Model.extend({
-  initialize: function initialize(bucket) {
-    // Set up base Firebase object for accessing specific bucket
-    this.db = new Firebase(config.db.base + bucket);
+  initialize: function initialize(type) {
+    // Save the type for use later
+    this.type = type;
 
-    // Create new cache object for the bucket as well
-    this.cache = new Cache(bucket);
+    // Create new cache object for the type as well
+    this.cache = new Cache(type);
   },
 
   /**
@@ -213,27 +213,21 @@ module.exports = Backbone.Model.extend({
     var cached = this.cache.getValue(id);
 
     if (cached) {
+      // Hurray, return immediately
       deferred.resolve(cached);
     } else {
-      this.db.orderByChild('id').equalTo(id).limitToFirst(1).once('value', (function (snapshot) {
-        var value = snapshot.val();
+      // Fine, make fresh request for it
+      $.getJSON('/get/' + this.type + '/' + id, (function (result) {
+        if (result && result.success) {
+          // Set item in the cache
+          this.cache.setValue(id, result.result);
 
-        if (value) {
-          // Pop the first record out
-          value = value[Object.keys(value)[0]];
-
-          // Cache the item under the id
-          this.cache.setValue(id, value);
-
-          deferred.resolve(value);
+          // And back we go
+          return deferred.resolve(result.result);
         } else {
-          deferred.reject('noResults');
+          return deferred.reject();
         }
-      }).bind(this), function (err) {
-        deferred.reject(err.code);
-
-        console.error('Error retrieving database object: ', err);
-      });
+      }).bind(this));
     }
 
     return deferred.promise;
@@ -404,14 +398,14 @@ module.exports = {
 
 var DataStore = require('../models/datastore');
 
-module.exports = new DataStore('items');
+module.exports = new DataStore('item');
 
 },{"../models/datastore":4}],11:[function(require,module,exports){
 'use strict';
 
 var DataStore = require('../models/datastore');
 
-module.exports = new DataStore('mobs');
+module.exports = new DataStore('mob');
 
 },{"../models/datastore":4}],12:[function(require,module,exports){
 'use strict';
@@ -432,6 +426,6 @@ module.exports = new Utility();
 
 var DataStore = require('../models/datastore');
 
-module.exports = new DataStore('vendors');
+module.exports = new DataStore('vendor');
 
 },{"../models/datastore":4}]},{},[1]);
