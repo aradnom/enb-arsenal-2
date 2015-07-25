@@ -386,12 +386,8 @@ module.exports = appRouter;
 
 var Config = require('../models/config');
 
-// Database config
-module.exports = {
-  db: new Config({
-    base: 'https://incandescent-torch-1326.firebaseio.com/'
-  })
-};
+// Build config objects as needed
+module.exports = {};
 
 },{"../models/config":3}],10:[function(require,module,exports){
 'use strict';
