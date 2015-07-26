@@ -28,10 +28,6 @@ window.App = {
   // Will contain the Packery grid when grid is populated
   itemGrid: null,
 
-  // Populated with volatile view data (view state that gets destroyed when the
-  // view changes)
-  state: {},
-
   // The main router populates everything for the app routes
   router: require('./router.js')
 };
@@ -40,8 +36,9 @@ window.App = {
 'use strict';
 
 module.exports = Backbone.Model.extend({
-  initialize: function initialize(bucket) {
+  initialize: function initialize(bucket, sizeLimit) {
     this.bucket = bucket;
+    this.sizeLimit = sizeLimit;
 
     // Populate/create initial cache bucket
     var cache = localStorage.getItem('cache_' + bucket);
@@ -113,6 +110,18 @@ module.exports = Backbone.Model.extend({
   },
 
   /**
+   * Replace the current contents of the cache with passed contents (as opposed
+   * to setting only a single key with setValue).
+   *
+   * @param {Mixed} contents Contents to set cache to
+   */
+  setCache: function setCache(contents) {
+    this.cache = contents;
+
+    this.saveCache();
+  },
+
+  /**
    * Save the current cache contents (persist the contents to localStorage).
    */
   saveCache: function saveCache() {
@@ -141,9 +150,12 @@ module.exports = Backbone.Model.extend({
    * remove oldest added item if necessary to make room for new incoming item.
    */
   clearCacheSpace: function clearCacheSpace() {
-    // First check the cache size.  This is based on the fact that localStorage
-    // stores approximately 2.5 million UTF-16 characters.
-    var used = JSON.stringify(localStorage).length / 2500000;
+    // The default for this is based on the fact that localStorage stores
+    // approximately 2.5 million UTF-16 characters.
+    var sizeLimit = this.sizeLimit || 2500000;
+
+    // First check the cache size.
+    var used = JSON.stringify(localStorage).length / sizeLimit;
 
     if (used >= 1) {
       // Blam the oldest item in the added queue.
@@ -192,7 +204,7 @@ module.exports = Backbone.Model.extend({
     this.type = type;
 
     // Create new cache object for the type as well
-    this.cache = new Cache(type);
+    this.cache = new Cache(type, config.cache.limit);
   },
 
   /**
@@ -296,13 +308,14 @@ module.exports = Backbone.Model.extend({
    *
    * @param {String} type  Type of search: item, vendor or mob
    * @param {Object} query Query args for search
+   * @param {Object} limit Limit for returned results
    *
    * @return {Object} Returns promise containing item results or error
    */
-  search: function search(type, query) {
+  search: function search(type, query, limit) {
     var deferred = Promise.defer();
 
-    $.getJSON('/search/' + type, { query: query }, function (result) {
+    $.getJSON('/search/' + type, { query: query, limit: limit }, function (result) {
       if (result && result.success) {
         return deferred.resolve(result.result);
       } else {
@@ -386,8 +399,15 @@ module.exports = appRouter;
 
 var Config = require('../models/config');
 
-// Build config objects as needed
-module.exports = {};
+// Search config
+module.exports = {
+  search: new Config({
+    limit: 25
+  }),
+  cache: new Config({
+    limit: 500000
+  })
+};
 
 },{"../models/config":3}],10:[function(require,module,exports){
 'use strict';

@@ -1,6 +1,7 @@
 module.exports = Backbone.Model.extend({
-  initialize: function ( bucket ) {
-    this.bucket = bucket;
+  initialize: function ( bucket, sizeLimit ) {
+    this.bucket    = bucket;
+    this.sizeLimit = sizeLimit;
 
     // Populate/create initial cache bucket
     var cache  = localStorage.getItem( 'cache_' + bucket );
@@ -68,6 +69,18 @@ module.exports = Backbone.Model.extend({
   },
 
   /**
+   * Replace the current contents of the cache with passed contents (as opposed
+   * to setting only a single key with setValue).
+   *
+   * @param {Mixed} contents Contents to set cache to
+   */
+  setCache: function ( contents ) {
+    this.cache = contents;
+
+    this.saveCache();
+  },
+
+  /**
    * Save the current cache contents (persist the contents to localStorage).
    */
   saveCache: function () {
@@ -96,9 +109,12 @@ module.exports = Backbone.Model.extend({
    * remove oldest added item if necessary to make room for new incoming item.
    */
   clearCacheSpace: function () {
-    // First check the cache size.  This is based on the fact that localStorage
-    // stores approximately 2.5 million UTF-16 characters.
-    var used = ( JSON.stringify( localStorage ).length / 2500000 );
+    // The default for this is based on the fact that localStorage stores
+    // approximately 2.5 million UTF-16 characters.
+    var sizeLimit = this.sizeLimit || 2500000;
+
+    // First check the cache size.
+    var used = ( JSON.stringify( localStorage ).length / sizeLimit );
 
     if ( used >= 1 ) {
       // Blam the oldest item in the added queue.

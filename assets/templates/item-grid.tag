@@ -1,9 +1,17 @@
 <item-grid>
-  <div class="item-grid">
+  <div class="item-grid  content">
     <item-card each={ items } data={ this }></item-card>
   </div>
 
+  /////////////////////////////////////////////////////////////////////////////
+  // Scripts //////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
+
+  var tag = this;
+
   items = [];
+
+  this.cache = new App.models.cache( 'itemGrid' );
 
   riot.observable( this );
 
@@ -24,10 +32,12 @@
   }).bind( this ));
 
   this.on( 'mount', function () {
-    // Reload any stored items
-    if ( App.state.gridItems && App.state.gridItems.length ) {
-      items = App.state.gridItems;
+    var cached = tag.cache.getAll();
 
+    // Reload any stored items
+    if ( cached && cached.length ) {
+      items = cached;
+    
       this.update();
 
       // And reestablish the grid
@@ -37,7 +47,7 @@
 
   this.on( 'unmount', function () {
     // Save the current items into the app state for retrieval
-    App.state.gridItems = items;
+    tag.cache.setCache( items );
 
     // Destroy Packery on the way out
     if ( App.itemGrid ) {

@@ -71,6 +71,7 @@ dbConnect
     app.all( '/search/:type', function( req, res ) {
       var type  = req.params.type;
       var query = Utility.getRequestValue( 'query', req );
+      var limit = Utility.getRequestValue( 'limit', req );
 
       // If type isn't valid, we out
       if ( type !== 'item' && type !== 'mob' && type !== 'vendor' ) {
@@ -82,7 +83,7 @@ dbConnect
         return res.jsonp({ error: 'Must pass valid search query to search.', errorCode: 'invalidParams' });
       }
 
-      apiSearch( db, type, query )
+      apiSearch( db, type, query, limit )
         .then( function ( result ) {
           return res.jsonp({ success: true, result: result });
         })

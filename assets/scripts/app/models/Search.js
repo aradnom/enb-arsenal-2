@@ -13,13 +13,14 @@ module.exports = Backbone.Model.extend({
    *
    * @param {String} type  Type of search: item, vendor or mob
    * @param {Object} query Query args for search
+   * @param {Object} limit Limit for returned results
    *
    * @return {Object} Returns promise containing item results or error
    */
-  search: function ( type, query ) {
+  search: function ( type, query, limit ) {
     var deferred = Promise.defer();
 
-    $.getJSON( '/search/' + type, { query: query }, function ( result ) {
+    $.getJSON( '/search/' + type, { query: query, limit: limit }, function ( result ) {
       if ( result && result.success ) {
         return deferred.resolve( result.result );
       } else {

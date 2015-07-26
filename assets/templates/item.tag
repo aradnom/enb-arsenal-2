@@ -6,7 +6,7 @@
       <img riot-src={ '/assets/visual/icons/png/' + item.image } border="0" />
     </div>
 
-    <p class="item__description" if={ item.basic.raw.description }>{ item.basic.raw.description }</p>
+    <p class="item__description" if={ item.description }>{ item.description }</p>
 
     <div if={ item.effects && item.effects.length } class="section">
       <h3>Effects</h3>

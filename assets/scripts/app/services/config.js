@@ -1,4 +1,11 @@
 var Config = require( '../models/config' );
 
-// Build config objects as needed
-module.exports = {};
+// Search config
+module.exports = {
+  search: new Config({
+    limit: 25
+  }),
+  cache: new Config({
+    limit: 500000
+  })
+};

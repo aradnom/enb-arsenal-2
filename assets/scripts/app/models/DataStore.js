@@ -7,7 +7,7 @@ module.exports = Backbone.Model.extend({
     this.type  = type;
 
     // Create new cache object for the type as well
-    this.cache = new Cache( type );
+    this.cache = new Cache( type, config.cache.limit );
   },
 
   /**
